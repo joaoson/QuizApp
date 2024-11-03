@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -11,6 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.room.Room
@@ -49,7 +53,8 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
     val scope = rememberCoroutineScope()
     var selectedCategoryName by remember { mutableStateOf<String?>(null) }
     var entries by remember { mutableStateOf(listOf<LeaderboardEntry>()) }
-    var showNextQuestion by remember { mutableStateOf(false) } // Flag to control delay
+    var showNextQuestion by remember { mutableStateOf(false) }
+    var showIntro by remember { mutableStateOf(true) } // New flag for intro screen
 
     LaunchedEffect(Unit) {
         scope.launch(Dispatchers.IO) {
@@ -57,7 +62,9 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
         }
     }
 
-    if (!isNicknameEntered) {
+    if (showIntro) {
+        IntroductionScreen(onStart = { showIntro = false })
+    } else if (!isNicknameEntered) {
         NicknameScreen(nickname = nickname, onNicknameChange = {
             nickname = it
         }, onStartQuiz = {
@@ -66,7 +73,7 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
             }
         })
     } else if (selectedCategory == null) {
-        CategorySelectionScreen(onCategorySelected = { categoryName,categoryQuestions ->
+        CategorySelectionScreen(onCategorySelected = { categoryName, categoryQuestions ->
             selectedCategoryName = categoryName
             selectedCategory = categoryQuestions.shuffled()
         })
@@ -75,16 +82,15 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
             question = selectedCategory!![currentQuestionIndex],
             onAnswerSelected = { isCorrect ->
                 if (isCorrect) score++
-                showNextQuestion = true // Set flag to trigger delay
+                showNextQuestion = true
             }
         )
 
-        // Handle delay before moving to the next question
         LaunchedEffect(showNextQuestion) {
             if (showNextQuestion) {
-                delay(2000) // Wait 2 seconds
-                currentQuestionIndex++ // Move to next question
-                showNextQuestion = false // Reset flag
+                delay(2000)
+                currentQuestionIndex++
+                showNextQuestion = false
             }
         }
     } else {
@@ -95,7 +101,6 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
             timeTaken = 0
         )
 
-        // Executa a operação de inserção em uma coroutine com o dispatcher de IO
         CoroutineScope(Dispatchers.IO).launch {
             leaderboardDao.insertEntry(finalRegistry)
         }
@@ -106,6 +111,41 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
             category = selectedCategoryName ?: "Categoria desconhecida",
             leaderboardDao = leaderboardDao
         )
+    }
+}
+
+@Composable
+fun IntroductionScreen(onStart: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.paris),
+            contentDescription = "App Logo",
+            modifier = Modifier.size(100.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "CyberQuiz",
+            fontSize = 36.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Blue
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Welcome to CyberQuiz, the app where you can compete with your friends on multiple topics.",
+            fontSize = 20.sp,
+            modifier = Modifier.padding(16.dp),
+            color = Color.Gray
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+        Button(onClick = onStart) {
+            Text(text = "Get Started")
+        }
     }
 }
 
