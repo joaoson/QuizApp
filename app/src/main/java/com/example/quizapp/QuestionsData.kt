@@ -7,12 +7,8 @@ val scienceQuestions = listOf(
         options = listOf("Marte", "Júpiter", "Saturno", "Vênus"),
         correctAnswer = "Marte"
     ),
-    Question(
-        questionText = "Qual é a principal fonte de energia para a Terra?",
-        imageResId = R.drawable.paris,
-        options = listOf("Vento", "Sol", "Oceano", "Fótons"),
-        correctAnswer = "Sol"
-    ),
+
+
     Question(
         questionText = "Qual é o gás mais abundante na atmosfera terrestre?",
         imageResId = R.drawable.paris,

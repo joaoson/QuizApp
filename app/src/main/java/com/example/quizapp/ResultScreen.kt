@@ -65,7 +65,7 @@ fun ResultScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Button(onClick = { /* Restart quiz or navigate to another screen */ }) {
+        Button(onClick = {  }) {
             Text(text = "Tentar novamente")
         }
     }

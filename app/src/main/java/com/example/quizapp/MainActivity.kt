@@ -1,5 +1,7 @@
 package com.example.quizapp
 
+import CategorySelectionScreen
+import QuizScreen
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -124,9 +126,9 @@ fun IntroductionScreen(onStart: () -> Unit) {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.paris),
+            painter = painterResource(id = R.drawable.logobackground),
             contentDescription = "App Logo",
-            modifier = Modifier.size(100.dp)
+            modifier = Modifier.size(200.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
