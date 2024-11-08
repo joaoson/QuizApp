@@ -15,6 +15,8 @@ import com.example.quizapp.R
 import com.example.quizapp.historyQuestions
 import com.example.quizapp.scienceQuestions
 import androidx.compose.foundation.shape.RoundedCornerShape
+import com.example.quizapp.geoQuestions
+import com.example.quizapp.mathQuestions
 
 
 @Composable
@@ -23,8 +25,8 @@ fun CategorySelectionScreen(onCategorySelected: (String, List<Question>) -> Unit
     val categories = listOf(
         Triple("Ciências", R.drawable.flask, scienceQuestions),
         Triple("História", R.drawable.landmark_solid, historyQuestions),
-        Triple("Matemática", R.drawable.square_root_variable_solid, historyQuestions),
-        Triple("Geografia", R.drawable.book_atlas_solid, historyQuestions)
+        Triple("Matemática", R.drawable.square_root_variable_solid, mathQuestions),
+        Triple("Geografia", R.drawable.book_atlas_solid, geoQuestions)
     )
 
     Column(
