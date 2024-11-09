@@ -25,14 +25,14 @@ fun ResultScreen(
     totalQuestions: Int,
     nickname: String,
     category: String,
-    leaderboardDao: LeaderboardDao
+    leaderboardDao: LeaderboardDao,
+    onRetry: () -> Unit
 ) {
     var leaderboardEntries by remember { mutableStateOf<List<LeaderboardEntry>>(emptyList()) }
 
-    // Fetch leaderboard entries from the database on the IO thread
     LaunchedEffect(Unit) {
         val entries = leaderboardDao.getTop10EntriesByCategory(category)
-        leaderboardEntries = entries.take(10) // Get top 10 entries
+        leaderboardEntries = entries.take(10)
     }
 
     Column(
@@ -45,11 +45,9 @@ fun ResultScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Leaderboard Section
         Text(text = "Leaderboard", fontSize = 24.sp)
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Display the top 10 leaderboard entries
         leaderboardEntries.forEachIndexed { index, entry ->
             Row(
                 modifier = Modifier
@@ -65,7 +63,7 @@ fun ResultScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Button(onClick = {  }) {
+        Button(onClick = onRetry) {
             Text(text = "Tentar novamente")
         }
     }

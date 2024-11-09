@@ -61,12 +61,23 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
     var selectedCategoryName by remember { mutableStateOf<String?>(null) }
     var entries by remember { mutableStateOf(listOf<LeaderboardEntry>()) }
     var showNextQuestion by remember { mutableStateOf(false) }
-    var showIntro by remember { mutableStateOf(true) } // New flag for intro screen
+    var showIntro by remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
         scope.launch(Dispatchers.IO) {
             entries = leaderboardDao.getAllEntries()
         }
+    }
+
+    fun resetQuiz() {
+        nickname = ""
+        isNicknameEntered = false
+        selectedCategory = null
+        currentQuestionIndex = 0
+        score = 0
+        selectedCategoryName = null
+        showNextQuestion = false
+        showIntro = false
     }
 
     if (showIntro) {
@@ -116,7 +127,8 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
             totalQuestions = selectedCategory!!.size,
             nickname = nickname,
             category = selectedCategoryName ?: "Categoria desconhecida",
-            leaderboardDao = leaderboardDao
+            leaderboardDao = leaderboardDao,
+            onRetry = { resetQuiz() }
         )
     }
 }
