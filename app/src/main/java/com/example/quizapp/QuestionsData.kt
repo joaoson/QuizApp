@@ -147,70 +147,70 @@ val historyQuestions = listOf(
 val mathQuestions = listOf(
     Question(
         questionText = "Qual é a raiz quadrada de 144?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.math1,
         options = listOf("12", "14", "16", "18"),
         correctAnswer = "12"
     ),
 
     Question(
         questionText = "Qual é o valor de Pi até duas casas decimais?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.math2,
         options = listOf("3.15", "3.14", "3.12", "3.10"),
         correctAnswer = "3.14"
     ),
 
     Question(
         questionText = "Quem é conhecido como o pai da geometria?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.math3,
         options = listOf("Pitágoras", "Euclides", "Arquimedes", "Newton"),
         correctAnswer = "Euclides"
     ),
 
     Question(
         questionText = "Qual é o resultado da equação 2x + 6 = 20?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.math4,
         options = listOf("5", "7", "9", "11"),
         correctAnswer = "7"
     ),
 
     Question(
         questionText = "Qual figura geométrica tem exatamente três lados?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.math5,
         options = listOf("Quadrado", "Triângulo", "Círculo", "Hexágono"),
         correctAnswer = "Triângulo"
     ),
 
     Question(
         questionText = "Qual é a fórmula do Teorema de Pitágoras?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.math6,
         options = listOf("a^2 + b^2 = c^2", "a^2 - b^2 = c^2", "a^2 + c^2 = b^2", "b^2 + c^2 = a^2"),
         correctAnswer = "a^2 + b^2 = c^2"
     ),
 
     Question(
         questionText = "Quantos lados tem um dodecágono?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.math7,
         options = listOf("10", "12", "14", "16"),
         correctAnswer = "12"
     ),
 
     Question(
         questionText = "Qual é a soma dos ângulos internos de um triângulo?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.math8,
         options = listOf("180 graus", "360 graus", "90 graus", "270 graus"),
         correctAnswer = "180 graus"
     ),
 
     Question(
         questionText = "O que é um número primo?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.math9,
         options = listOf("Divisível apenas por 1 e ele mesmo", "Divisível por qualquer número", "Divisível por 1, 2 e ele mesmo", "Nenhum dos anteriores"),
         correctAnswer = "Divisível apenas por 1 e ele mesmo"
     ),
 
     Question(
         questionText = "O que é uma fração?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.math10,
         options = listOf("Um número inteiro", "Uma divisão de dois números inteiros", "Um tipo de decimal", "Uma operação matemática"),
         correctAnswer = "Uma divisão de dois números inteiros"
     )
@@ -219,70 +219,70 @@ val mathQuestions = listOf(
 val geoQuestions = listOf(
     Question(
         questionText = "Qual é o maior deserto do mundo?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.geo1,
         options = listOf("Sahara", "Gobi", "Kalahari", "Ártico"),
         correctAnswer = "Ártico"
     ),
 
     Question(
         questionText = "Qual país é atravessado pela linha do Equador e pelo Trópico de Capricórnio?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.geo2,
         options = listOf("Brasil", "Austrália", "Índia", "Egito"),
         correctAnswer = "Brasil"
     ),
 
     Question(
         questionText = "Qual é o rio mais longo do mundo?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.geo3,
         options = listOf("Amazonas", "Nilo", "Yangtzé", "Mississipi"),
         correctAnswer = "Nilo"
     ),
 
     Question(
         questionText = "Qual é a capital da Austrália?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.geo4,
         options = listOf("Sydney", "Melbourne", "Canberra", "Perth"),
         correctAnswer = "Canberra"
     ),
 
     Question(
         questionText = "Quantos países existem na Europa?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.geo5,
         options = listOf("44", "50", "54", "58"),
         correctAnswer = "44"
     ),
 
     Question(
         questionText = "Qual é o maior país do mundo em área?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.geo6,
         options = listOf("Estados Unidos", "China", "Rússia", "Canadá"),
         correctAnswer = "Rússia"
     ),
 
     Question(
         questionText = "Qual continente é conhecido como o 'berço da humanidade'?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.geo7,
         options = listOf("Ásia", "África", "Europa", "América"),
         correctAnswer = "África"
     ),
 
     Question(
         questionText = "Qual é o ponto mais profundo dos oceanos?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.geo8,
         options = listOf("Fossa das Marianas", "Fossa de Java", "Abismo Challenger", "Fossa de Tonga"),
         correctAnswer = "Fossa das Marianas"
     ),
 
     Question(
         questionText = "Qual é a montanha mais alta do mundo?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.geo9,
         options = listOf("K2", "Monte Everest", "Monte Kilimanjaro", "Monte Elbrus"),
         correctAnswer = "Monte Everest"
     ),
 
     Question(
         questionText = "Qual é o lago mais profundo do mundo?",
-        imageResId = R.drawable.paris,
+        imageResId = R.drawable.geo10,
         options = listOf("Lago Baikal", "Lago Superior", "Lago Tanganyika", "Lago Michigan"),
         correctAnswer = "Lago Baikal"
     )

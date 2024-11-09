@@ -8,6 +8,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -27,6 +29,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+
 
 
 class MainActivity : ComponentActivity() {
@@ -154,6 +159,8 @@ fun IntroductionScreen(onStart: () -> Unit) {
 
 @Composable
 fun NicknameScreen(nickname: String, onNicknameChange: (String) -> Unit, onStartQuiz: () -> Unit) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -166,7 +173,14 @@ fun NicknameScreen(nickname: String, onNicknameChange: (String) -> Unit, onStart
         OutlinedTextField(
             value = nickname,
             onValueChange = onNicknameChange,
-            label = { Text("Apelido") }
+            label = { Text("Apelido") },
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = {
+                if (nickname.isNotBlank()) {
+                    onStartQuiz()
+                    keyboardController?.hide()
+                }
+            })
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = onStartQuiz) {
