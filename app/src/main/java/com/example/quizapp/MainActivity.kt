@@ -160,7 +160,7 @@ fun IntroductionScreen(onStart: () -> Unit) {
 
         Spacer(modifier = Modifier.height(50.dp))
         Text(
-            text = "Welcome to CyberQuiz, the app where you can compete with your friends on multiple topics.",
+            text = "Bem-vindo ao CyberQuiz, o aplicativo onde você pode competir contra seus amigos em diversos tópicos.",
             fontSize = 21.sp,
             modifier = Modifier.padding(16.dp),
             color = Color.White,
@@ -168,7 +168,7 @@ fun IntroductionScreen(onStart: () -> Unit) {
         )
         Spacer(modifier = Modifier.height(32.dp))
         Button(onClick = onStart) {
-            Text(text = "Get Started",
+            Text(text = "Começar",
                 fontSize = 20.sp,
                 modifier = Modifier.padding(5.dp),
                 color = Color.White,
