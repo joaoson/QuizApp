@@ -105,8 +105,9 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
     } else if (currentQuestionIndex < selectedCategory!!.size) {
         QuizScreen(
             question = selectedCategory!![currentQuestionIndex],
+            score = score,
             onAnswerSelected = { isCorrect, points ->
-                if (isCorrect) score += points  // Add the time-based points
+                if (isCorrect) score += points
                 showNextQuestion = true
             }
         )
@@ -118,6 +119,7 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
                 showNextQuestion = false
             }
         }
+
     } else {
         val finalRegistry = LeaderboardEntry(
             nickname = nickname,

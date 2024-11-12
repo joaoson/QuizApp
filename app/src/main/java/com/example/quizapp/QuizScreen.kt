@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import android.media.MediaPlayer
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
 import androidx.compose.ui.text.style.TextAlign
 import com.example.quizapp.Question
 import com.example.quizapp.R
@@ -24,6 +26,7 @@ import com.example.quizapp.R
 @Composable
 fun QuizScreen(
     question: Question,
+    score: Int,
     onAnswerSelected: (Boolean, Int) -> Unit
 ) {
     val context = LocalContext.current
@@ -33,9 +36,13 @@ fun QuizScreen(
     var isImageVisible by remember { mutableStateOf(false) }
     var optionVisibilityStates by remember { mutableStateOf(List(question.options.size) { false }) }
 
-    // MediaPlayers for correct and wrong sounds
     val correctSound = remember { MediaPlayer.create(context, R.raw.correctsound) }
     val wrongSound = remember { MediaPlayer.create(context, R.raw.wrongsound) }
+    val buzzerSound = remember { MediaPlayer.create(context, R.raw.buzzer) }
+
+    var timerProgress by remember { mutableStateOf(1f) }
+
+    val timerWidth by animateDpAsState(targetValue = 400.dp * timerProgress)
 
     fun calculateScore(timeTaken: Long): Int {
         val secondsTaken = timeTaken / 1000.0 // Convert to seconds
@@ -49,19 +56,34 @@ fun QuizScreen(
         }
     }
 
-    // Trigger animation whenever a new question is loaded
     LaunchedEffect(question) {
         isQuestionVisible = false
         isImageVisible = false
         optionVisibilityStates = List(question.options.size) { false }
 
-        // Animate question text and image first, then options one by one
         isQuestionVisible = true
-        delay(500) // Delay for image to appear after question
+        delay(500)
         isImageVisible = true
         question.options.indices.forEach { index ->
-            delay(300) // Delay between each option appearance
+            delay(300)
             optionVisibilityStates = optionVisibilityStates.toMutableList().apply { this[index] = true }
+        }
+    }
+
+    LaunchedEffect(key1 = question) {
+        timerProgress = 1f
+        delay(2000L)
+
+        val totalTime = 10000L // 7 seconds
+        val interval = 50L
+
+        for (timeLeft in totalTime downTo 0 step interval) {
+            delay(interval)
+            timerProgress = timeLeft / totalTime.toFloat()
+        }
+        if (selectedAnswer == null) {
+            buzzerSound.start()
+            onAnswerSelected(false, 0)
         }
     }
 
@@ -72,7 +94,31 @@ fun QuizScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Animate the question text
+        Text(
+            text = "Score: $score",
+            fontSize = 24.sp,
+            color = Color.White,
+            modifier = Modifier.align(Alignment.Start)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(8.dp)
+                .background(Color.Gray.copy(alpha = 0.3f))
+        ) {
+            Box(
+                modifier = Modifier
+                    .height(8.dp)
+                    .width(timerWidth)
+                    .background(Color.Red)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
         AnimatedVisibility(
             visible = isQuestionVisible,
             enter = fadeIn() + slideInHorizontally(initialOffsetX = { -50 })
@@ -82,7 +128,6 @@ fun QuizScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Animate the image
         AnimatedVisibility(
             visible = isImageVisible,
             enter = fadeIn() + slideInHorizontally(initialOffsetX = { -50 })
@@ -99,7 +144,6 @@ fun QuizScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Animate each answer option with alternating slide directions
         question.options.forEachIndexed { index, answer ->
             AnimatedVisibility(
                 visible = optionVisibilityStates[index],
@@ -123,7 +167,6 @@ fun QuizScreen(
 
                         onAnswerSelected(isCorrect,score)
 
-                        // Play sound based on answer correctness
                         if (isCorrect) {
                             correctSound.start()
                         } else {
@@ -140,7 +183,6 @@ fun QuizScreen(
             }
         }
 
-        // Delay and reset selected answer after 2 seconds if one is selected
         if (selectedAnswer != null) {
             LaunchedEffect(selectedAnswer) {
                 delay(1900)
@@ -150,11 +192,11 @@ fun QuizScreen(
         }
     }
 
-    // Release MediaPlayers when the composable is disposed
     DisposableEffect(Unit) {
         onDispose {
             correctSound.release()
             wrongSound.release()
+            buzzerSound.release()
         }
     }
 }
