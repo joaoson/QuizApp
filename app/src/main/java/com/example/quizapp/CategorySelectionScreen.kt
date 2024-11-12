@@ -22,7 +22,7 @@ import com.example.quizapp.mathQuestions
 
 @Composable
 fun CategorySelectionScreen(onCategorySelected: (String, List<Question>) -> Unit) {
-    // Create a list of category data
+
     val categories = listOf(
         Triple("Ciências", R.drawable.flask, scienceQuestions),
         Triple("História", R.drawable.landmark_solid, historyQuestions),
@@ -64,8 +64,8 @@ fun CategoryButton(text: String, icon: Painter, onClick: () -> Unit) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(1f), // Keep the square aspect ratio
-        shape = RoundedCornerShape(16.dp), // Add rounded corners
+            .aspectRatio(1f),
+        shape = RoundedCornerShape(16.dp),
         color = MaterialTheme.colorScheme.primary,
         onClick = onClick,
     ) {

@@ -36,6 +36,8 @@ fun QuizScreen(
     var isImageVisible by remember { mutableStateOf(false) }
     var optionVisibilityStates by remember { mutableStateOf(List(question.options.size) { false }) }
 
+    var shuffledOptions by remember { mutableStateOf(question.options.shuffled()) }
+
     val correctSound = remember { MediaPlayer.create(context, R.raw.correctsound) }
     val wrongSound = remember { MediaPlayer.create(context, R.raw.wrongsound) }
     val buzzerSound = remember { MediaPlayer.create(context, R.raw.buzzer) }
@@ -61,10 +63,12 @@ fun QuizScreen(
         isImageVisible = false
         optionVisibilityStates = List(question.options.size) { false }
 
+        shuffledOptions = question.options.shuffled()
+
         isQuestionVisible = true
         delay(500)
         isImageVisible = true
-        question.options.indices.forEach { index ->
+        shuffledOptions.indices.forEach { index ->
             delay(300)
             optionVisibilityStates = optionVisibilityStates.toMutableList().apply { this[index] = true }
         }
@@ -144,7 +148,7 @@ fun QuizScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        question.options.forEachIndexed { index, answer ->
+        shuffledOptions.forEachIndexed { index, answer ->
             AnimatedVisibility(
                 visible = optionVisibilityStates[index],
                 enter = fadeIn() + slideInHorizontally(initialOffsetX = { if (index % 2 == 0) -300 else 300 })
