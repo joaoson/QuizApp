@@ -15,6 +15,7 @@ import com.example.quizapp.R
 import com.example.quizapp.historyQuestions
 import com.example.quizapp.scienceQuestions
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.Color
 import com.example.quizapp.geoQuestions
 import com.example.quizapp.mathQuestions
 
@@ -36,7 +37,7 @@ fun CategorySelectionScreen(onCategorySelected: (String, List<Question>) -> Unit
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Escolha uma categoria:", fontSize = 24.sp)
+        Text(text = "Escolha uma categoria:", fontSize = 24.sp, color = Color.White)
 
         Spacer(modifier = Modifier.height(16.dp))
 

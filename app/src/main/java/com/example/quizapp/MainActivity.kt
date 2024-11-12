@@ -7,10 +7,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -31,7 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-
+import androidx.compose.ui.text.style.TextAlign
 
 
 class MainActivity : ComponentActivity() {
@@ -43,6 +45,11 @@ class MainActivity : ComponentActivity() {
         val leaderboardDao = db.leaderboardDao()
         setContent {
             QuizAppTheme {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color(0xFF030542))
+                )
                 QuizApp(leaderboardDao)
             }
         }
@@ -98,8 +105,8 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
     } else if (currentQuestionIndex < selectedCategory!!.size) {
         QuizScreen(
             question = selectedCategory!![currentQuestionIndex],
-            onAnswerSelected = { isCorrect ->
-                if (isCorrect) score++
+            onAnswerSelected = { isCorrect, points ->
+                if (isCorrect) score += points  // Add the time-based points
                 showNextQuestion = true
             }
         )
@@ -143,32 +150,33 @@ fun IntroductionScreen(onStart: () -> Unit) {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logobackground),
+            painter = painterResource(id = R.drawable.logobackgroundnoback),
             contentDescription = "App Logo",
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier.size(300.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "CyberQuiz",
-            fontSize = 36.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Blue
-        )
-        Spacer(modifier = Modifier.height(8.dp))
+
+        Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = "Welcome to CyberQuiz, the app where you can compete with your friends on multiple topics.",
-            fontSize = 20.sp,
+            fontSize = 21.sp,
             modifier = Modifier.padding(16.dp),
-            color = Color.Gray
+            color = Color.White,
+            textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(32.dp))
         Button(onClick = onStart) {
-            Text(text = "Get Started")
+            Text(text = "Get Started",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(5.dp),
+                color = Color.White,
+                textAlign = TextAlign.Center)
         }
     }
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NicknameScreen(nickname: String, onNicknameChange: (String) -> Unit, onStartQuiz: () -> Unit) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -180,23 +188,44 @@ fun NicknameScreen(nickname: String, onNicknameChange: (String) -> Unit, onStart
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Digite seu apelido:", fontSize = 24.sp)
+        Text(text = "Digite seu apelido:", fontSize = 24.sp, color = Color.White)
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedTextField(
             value = nickname,
             onValueChange = onNicknameChange,
-            label = { Text("Apelido") },
+            label = { Text("Apelido", color = Color.White) },
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = {
                 if (nickname.isNotBlank()) {
                     onStartQuiz()
                     keyboardController?.hide()
                 }
-            })
+            }),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+            textStyle = androidx.compose.ui.text.TextStyle(
+                textAlign = TextAlign.Center,
+                color = Color.White,
+                fontSize = 18.sp
+            ),
+            colors = androidx.compose.material3.TextFieldDefaults.outlinedTextFieldColors(
+                containerColor = Color.Transparent,
+                unfocusedBorderColor = Color.White.copy(alpha = 0.7f),
+                focusedBorderColor = Color.White,
+                cursorColor = Color.White,
+                focusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.White.copy(alpha = 0.7f)
+            ),
+            singleLine = true
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Button(onClick = onStartQuiz) {
-            Text(text = "Iniciar Quiz")
+            Text(text = "Iniciar Quiz",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(5.dp),
+                color = Color.White,
+                textAlign = TextAlign.Center)
         }
     }
 }
