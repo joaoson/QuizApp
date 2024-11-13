@@ -3,7 +3,7 @@
 CyberQuiz é uma aplicação mobile para Android que oferece uma experiência divertida e educativa, permitindo que você desafie seus amigos em quizzes sobre música, matemática, história, geografia e ciências. O objetivo é responder perguntas corretamente e acumular pontos para superar seus oponentes.
 
 ![1](https://github.com/user-attachments/assets/04078376-db16-4047-9afd-839f04a55b18)
-![2](https://github.com/user-attachments/assets/e2d299a5-86bb-477b-b66c-7f58a55e647e)
+![2](https://github.com/user-attachments/assets/192fc984-7f0a-4ac1-9151-de5016ff1fe4)
 
 
 ## Funcionalidades
