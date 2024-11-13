@@ -36,5 +36,10 @@ CyberQuiz é uma aplicação mobile para Android que oferece uma experiência di
 - **Acumule Pontos:** Para cada resposta correta, você ganha pontos que serão acumulados no seu ranking. Quanto mais rápido responder, mais pontos ganhará.
 - **Compare com Amigos:** No final, veja quem obteve a maior pontuação e desafie-se a melhorar!
   
+## Equipe
+- Amanda Queiroz Sobral;
+- Carlos Eduardo Domingues Hobmeier;
+- João Vitor de Freitas.
+
 
 CyberQuiz © 2024 - Desafie seus amigos e teste seu conhecimento!
