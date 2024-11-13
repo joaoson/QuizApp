@@ -287,3 +287,75 @@ val geoQuestions = listOf(
         correctAnswer = "Lago Baikal"
     )
 )
+
+val musicQuestions = listOf(
+    Question(
+        questionText = "Qual é a música?",
+        songResId = R.raw.acdc_back_in_black,
+        options = listOf("Back in Black", "Stairway to Heaven", "Paint it Black", "Hey Jude"),
+        correctAnswer = "Back in Black"
+    ),
+
+    Question(
+        questionText = "Qual é a música?",
+        songResId = R.raw.beatles_twist_and_shout,
+        options = listOf("Twist and Shout", "Let it Be", "Hey Jude", "Come Together"),
+        correctAnswer = "Twist and Shout"
+    ),
+
+    Question(
+        questionText = "Qual é a música?",
+        songResId = R.raw.deep_purple_smoke_on_the_water,
+        options = listOf("Smoke on the Water", "Highway to Hell", "Sweet Child O' Mine", "Eye of the Tiger"),
+        correctAnswer = "Smoke on the Water"
+    ),
+
+    Question(
+        questionText = "Qual é a música?",
+        songResId = R.raw.ed_sheeran_shape_of_you,
+        options = listOf("Shape of You", "Thinking Out Loud", "Photograph", "Perfect"),
+        correctAnswer = "Shape of You"
+    ),
+
+    Question(
+        questionText = "Qual é a música?",
+        songResId = R.raw.europe_the_final_countdown,
+        options = listOf("The Final Countdown", "Eye of the Tiger", "Don't Stop Believin'", "Sweet Child O' Mine"),
+        correctAnswer = "The Final Countdown"
+    ),
+
+    Question(
+        questionText = "Qual é a música?",
+        songResId = R.raw.guns_roses_sweet_child_o_mine,
+        options = listOf("Sweet Child O' Mine", "Welcome to the Jungle", "November Rain", "Paradise City"),
+        correctAnswer = "Sweet Child O' Mine"
+    ),
+
+    Question(
+        questionText = "Qual é a música?",
+        songResId = R.raw.journey_dont_stop_believin,
+        options = listOf("Don't Stop Believin'", "Any Way You Want It", "Wheel in the Sky", "Open Arms"),
+        correctAnswer = "Don't Stop Believin'"
+    ),
+
+    Question(
+        questionText = "Qual é a música?",
+        songResId = R.raw.metallica_noting_else_matters,
+        options = listOf("Nothing Else Matters", "Enter Sandman", "The Unforgiven", "One"),
+        correctAnswer = "Nothing Else Matters"
+    ),
+
+    Question(
+        questionText = "Qual é a música?",
+        songResId = R.raw.queen_we_will_rock_you,
+        options = listOf("We Will Rock You", "Bohemian Rhapsody", "We Are the Champions", "Another One Bites the Dust"),
+        correctAnswer = "We Will Rock You"
+    ),
+
+    Question(
+        questionText = "Qual é a música?",
+        songResId = R.raw.survivor_eye_of_the_tiger,
+        options = listOf("Eye of the Tiger", "Final Countdown", "Don't Stop Believin'", "Sweet Child O' Mine"),
+        correctAnswer = "Eye of the Tiger"
+    )
+)

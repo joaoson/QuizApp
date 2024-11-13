@@ -1,6 +1,7 @@
 package com.example.quizapp
 
 import CategorySelectionScreen
+import MusicQuizScreen
 import QuizScreen
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -102,7 +103,28 @@ fun QuizApp(leaderboardDao: LeaderboardDao) {
             selectedCategoryName = categoryName
             selectedCategory = categoryQuestions.shuffled()
         })
-    } else if (currentQuestionIndex < selectedCategory!!.size) {
+    }
+         else if (selectedCategoryName == "Musica" && currentQuestionIndex < selectedCategory!!.size) {
+                MusicQuizScreen(
+                    question = selectedCategory!![currentQuestionIndex],
+                    score = score,
+                    onAnswerSelected = { isCorrect, points ->
+                        if (isCorrect) score += points
+                        showNextQuestion = true
+                    }
+                )
+
+                LaunchedEffect(showNextQuestion) {
+                    if (showNextQuestion) {
+                        delay(2000)
+                        currentQuestionIndex++
+                        showNextQuestion = false
+                    }
+                }
+
+
+        }
+    else if (currentQuestionIndex < selectedCategory!!.size && selectedCategoryName != "música") {
         QuizScreen(
             question = selectedCategory!![currentQuestionIndex],
             score = score,

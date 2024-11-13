@@ -1,3 +1,7 @@
+import androidx.compose.foundation.clickable
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Button
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInHorizontally
@@ -11,11 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
@@ -24,7 +29,7 @@ import com.example.quizapp.Question
 import com.example.quizapp.R
 
 @Composable
-fun QuizScreen(
+fun MusicQuizScreen(
     question: Question,
     score: Int,
     onAnswerSelected: (Boolean, Int) -> Unit
@@ -33,41 +38,35 @@ fun QuizScreen(
     var selectedAnswer by remember { mutableStateOf<String?>(null) }
     var startTime by remember { mutableStateOf(System.currentTimeMillis()) }
     var isQuestionVisible by remember { mutableStateOf(false) }
-    var isImageVisible by remember { mutableStateOf(false) }
     var optionVisibilityStates by remember { mutableStateOf(List(question.options.size) { false }) }
-
     var shuffledOptions by remember { mutableStateOf(question.options.shuffled()) }
 
     val correctSound = remember { MediaPlayer.create(context, R.raw.correctsound) }
     val wrongSound = remember { MediaPlayer.create(context, R.raw.wrongsound) }
     val buzzerSound = remember { MediaPlayer.create(context, R.raw.buzzer) }
+    var musicPlayer2 by remember { mutableStateOf<MediaPlayer?>(null) }
 
-    var timerProgress by remember { mutableStateOf(1f) }
-
+        var timerProgress by remember { mutableStateOf(1f) }
     val timerWidth by animateDpAsState(targetValue = 400.dp * timerProgress)
 
     fun calculateScore(timeTaken: Long): Int {
-        val secondsTaken = timeTaken / 1000.0 // Convert to seconds
+        val secondsTaken = timeTaken / 1000.0
         return when {
-            secondsTaken <= 1 -> 100    // 1 second or less: 100 points
-            secondsTaken <= 2 -> 80     // 1-2 seconds: 80 points
-            secondsTaken <= 3 -> 60     // 2-3 seconds: 60 points
-            secondsTaken <= 4 -> 40     // 3-4 seconds: 40 points
-            secondsTaken <= 5 -> 20     // 4-5 seconds: 20 points
-            else -> 10                  // More than 5 seconds: 10 points
+            secondsTaken <= 1 -> 100
+            secondsTaken <= 2 -> 80
+            secondsTaken <= 3 -> 60
+            secondsTaken <= 4 -> 40
+            secondsTaken <= 5 -> 20
+            else -> 10
         }
     }
 
     LaunchedEffect(question) {
         isQuestionVisible = false
-        isImageVisible = false
         optionVisibilityStates = List(question.options.size) { false }
-
         shuffledOptions = question.options.shuffled()
-
         isQuestionVisible = true
         delay(500)
-        isImageVisible = true
         shuffledOptions.indices.forEach { index ->
             delay(300)
             optionVisibilityStates = optionVisibilityStates.toMutableList().apply { this[index] = true }
@@ -91,6 +90,40 @@ fun QuizScreen(
         }
     }
 
+    LaunchedEffect(question.songResId) {
+        try {
+            // Release existing player if any
+            musicPlayer2?.release()
+
+            // Create new player if we have a valid resource ID
+            question.songResId?.let { resId ->
+                musicPlayer2 = MediaPlayer.create(context, resId)
+                musicPlayer2?.apply {
+                    setOnPreparedListener {
+                        start()
+                        Log.d("MusicQuiz", "MediaPlayer started successfully")
+                    }
+                    setOnErrorListener { mp, what, extra ->
+                        Log.e("MusicQuiz", "MediaPlayer error: what=$what extra=$extra")
+                        true
+                    }
+                    setOnCompletionListener {
+                        Log.d("MusicQuiz", "MediaPlayer completed playback")
+                        // Optional: loop the music
+                        // start()
+                    }
+                    // Make sure volume is up
+                    setVolume(1.0f, 1.0f)
+                }
+            } ?: run {
+                Log.e("MusicQuiz", "No song resource ID provided")
+            }
+        } catch (e: Exception) {
+            Log.e("MusicQuiz", "Error initializing MediaPlayer", e)
+        }
+    }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -107,7 +140,6 @@ fun QuizScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -123,29 +155,17 @@ fun QuizScreen(
         }
 
         Spacer(modifier = Modifier.height(8.dp))
+
         AnimatedVisibility(
             visible = isQuestionVisible,
             enter = fadeIn() + slideInHorizontally(initialOffsetX = { -50 })
         ) {
-            Text(text = question.questionText, fontSize = 20.sp, textAlign = TextAlign.Center, color = Color.White)
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        AnimatedVisibility(
-            visible = isImageVisible,
-            enter = fadeIn() + slideInHorizontally(initialOffsetX = { -50 })
-        ) {
-            question.imageResId?.let { painterResource(id = it) }?.let {
-                Image(
-                    painter = it,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    contentScale = ContentScale.Crop
-                )
-            }
+            Text(
+                text = question.questionText,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+                color = Color.White
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -158,10 +178,10 @@ fun QuizScreen(
                 val isCorrect = answer == question.correctAnswer
                 val buttonColor by animateColorAsState(
                     targetValue = when {
-                        selectedAnswer == null -> Color(0xFFADD8E6)  // Light blue
+                        selectedAnswer == null -> Color(0xFFADD8E6)
                         answer == question.correctAnswer -> Color.Green
                         answer == selectedAnswer -> Color.Red
-                        else -> Color(0xFFADD8E6)  // Light blue
+                        else -> Color(0xFFADD8E6)
                     }
                 )
 
@@ -171,20 +191,20 @@ fun QuizScreen(
                         val timeTaken = System.currentTimeMillis() - startTime
                         val score = if (isCorrect) calculateScore(timeTaken) else 0
 
-                        onAnswerSelected(isCorrect,score)
+                        onAnswerSelected(isCorrect, score)
 
                         if (isCorrect) {
-                            correctSound.start()
+                            if (!correctSound.isPlaying) correctSound.start()
                         } else {
-                            wrongSound.start()
+                            if (!wrongSound.isPlaying) wrongSound.start()
                         }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp),
-                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(buttonColor)
+                    colors = ButtonDefaults.buttonColors(buttonColor)
                 ) {
-                    Text(text = answer,color = Color.Black)
+                    Text(text = answer, color = Color.Black)
                 }
             }
         }
@@ -203,6 +223,9 @@ fun QuizScreen(
             correctSound.release()
             wrongSound.release()
             buzzerSound.release()
+            musicPlayer2?.release()
         }
     }
 }
+
+

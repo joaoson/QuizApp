@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
 import com.example.quizapp.geoQuestions
 import com.example.quizapp.mathQuestions
+import com.example.quizapp.musicQuestions
 
 
 @Composable
@@ -27,7 +28,8 @@ fun CategorySelectionScreen(onCategorySelected: (String, List<Question>) -> Unit
         Triple("Ciências", R.drawable.flask, scienceQuestions),
         Triple("História", R.drawable.landmark_solid, historyQuestions),
         Triple("Matemática", R.drawable.square_root_variable_solid, mathQuestions),
-        Triple("Geografia", R.drawable.book_atlas_solid, geoQuestions)
+        Triple("Geografia", R.drawable.book_atlas_solid, geoQuestions),
+        Triple("Musica", R.drawable.music_solid, musicQuestions)
     )
 
     Column(
